@@ -125,7 +125,7 @@ namespace test_list_box
             person[] students = null;
             string cmdStr = "SELECT * FROM persons";
 
-            using (MySqlCommand command = new MySqlCommand())
+            using (MySqlCommand command = new MySqlCommand(cmdStr))
             {
                 ds = GetMultipleQuery(command);
             }
@@ -145,11 +145,11 @@ namespace test_list_box
                     for (int i = 0; i < students.Length; i++)
                     {
                         students[i] = new person();
-                        students[i].CityCode = Convert.ToInt64(dt.Rows[i][0]);
+                        students[i].Id = Convert.ToInt64(dt.Rows[i][0]);
                         students[i].FirstName = dt.Rows[i][1].ToString();
-                        students[i].Id = Convert.ToInt64(dt.Rows[i][2]);
-                        students[i].LastName = dt.Rows[i][3].ToString();
-                        students[i].LastName = dt.Rows[i][4].ToString();
+                        students[i].LastName = dt.Rows[i][2].ToString();
+                        students[i].CityCode = Convert.ToInt64(dt.Rows[i][3]);
+                        students[i].UserName = dt.Rows[i][4].ToString();
                         students[i].Password = dt.Rows[i][5].ToString();
                     }
                 }
@@ -190,6 +190,43 @@ namespace test_list_box
                 }
             }
             return city;
+        }
+
+        public grades[] GetGradesData()
+        {
+            DataSet ds = new DataSet();
+            grades[] Grades = null;
+            string cmdStr = "SELECT * FROM grades";
+
+            using (MySqlCommand command = new MySqlCommand(cmdStr))
+            {
+                ds = GetMultipleQuery(command);
+            }
+
+            DataTable dt = new DataTable();
+
+            try
+            {
+                dt = ds.Tables[0];
+            }
+
+            catch
+            { }
+            if (dt.Rows.Count > 0)
+            {
+                Grades = new grades[dt.Rows.Count];
+                for (int i = 0; i < Grades.Length; i++)
+                {
+                    Grades[i] = new grades();
+                    Grades[i].Id = Convert.ToInt64(dt.Rows[i][0]);
+                    Grades[i].Math = Convert.ToInt32(dt.Rows[i][1]);
+                    Grades[i].English = Convert.ToInt32(dt.Rows[i][2]);
+                    Grades[i].Comp = Convert.ToInt32(dt.Rows[i][3]);
+                   
+                }
+            }
+
+            return Grades;
         }
     }
 }

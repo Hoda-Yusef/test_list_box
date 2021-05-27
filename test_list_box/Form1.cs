@@ -32,6 +32,13 @@ namespace test_list_box
 
         private void fillCities()
         {
+            pdf PDF = new pdf();
+            person[] pp = mySQL.GetStudentsData();
+            PDF.students_array(pp);
+            add_text_to_pdf.Text = "Done!";
+            PDF.CloseReport();
+
+
             city[] cities = mySQL.GetCityData();
             lstTest.Items.Clear();
 
@@ -40,7 +47,13 @@ namespace test_list_box
                 lstTest.Items.Add(cities[i].CityName);
             }
 
-            
+           
+
+
+
+
+
+
         }
 
      
@@ -96,6 +109,35 @@ namespace test_list_box
 
 
             
+        }
+
+        private void form_listbox_Load(object sender, EventArgs e)
+        {
+            //int i, j;
+
+            //dataGridView1.RowCount = 10;
+            //dataGridView1.ColumnCount = 5;
+
+            //for (i = 1; i <= 10; i++)
+            //{
+            //    dataGridView1.Columns[i - 1].HeaderText = i.ToString();
+            //    dataGridView1.Columns[i - 1].Width = dataGridView1.Width / 11;
+            //    dataGridView1.Rows[i - 1].HeaderCell.Value = i.ToString();
+
+               
+            //}
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            person[] per = mySQL.GetStudentsData();
+            grades[] grade = mySQL.GetGradesData();
+            pdf PDF = new pdf("students_grades_image");
+            PDF.SetTitle("Students");
+            PDF.SetImage("students.jfif");
+            PDF.students_grades(per, grade);
+            PDF.CloseReport();
+
         }
     }
 }
